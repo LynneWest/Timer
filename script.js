@@ -153,24 +153,37 @@ $(document).ready(function()
 
 	function Timer(minute,timerID)
 	{
-		this.min = minute;
+		//this.min = minute;
 		var min = minute-1;
 		var sec = 60;
+		this.startTimer;
 		
-		this.countdown = function()
-		{
-			
-			if(min>0 && sec>0)
-			{
-				start = setInterval(function()
+		// this.countdown = function()
+		// {			
+			// if(min>0 && sec>0)
+			// {
+				this.startCountdown = function()
+				{
+					if(min>0 && sec>0)
+					{
+						this.startTimer = setInterval(function(){countdown();},20)
+					}
+				}
+				this.stopCountdown = function()
+				{
+					console.log("stop");
+					clearInterval(this.startTimer);
+				}				
+				
+				function countdown() 
 				{
 					sec--;
 					if(min===0 && sec===0)
 					{
-						clearInterval(start);
-					}			
-					
-					if(sec>9){
+						clearInterval(this.startTimer);
+					}					
+					if(sec>9)
+					{
 						$(timerID).html(min+":"+sec);		
 					}
 					else
@@ -181,18 +194,19 @@ $(document).ready(function()
 					{			
 						min--;
 						sec=60;			
-					}
-					pauseTimer = function()
-					{
-						clearInterval(start);
-					}												
-				},20);
-			}
-		}
-		this.pause = function()
-		{
-			pauseTimer();
-		}
+					}																	
+				};
+
+				// function stop()
+				// {
+				// 	clearInterval(startTimer);
+				// }
+			// }
+		// }
+		// this.stop = function()
+		// {
+		// 	clearInterval(startTimer);
+		// }
 		this.addMin = function()
 		{
 
@@ -210,13 +224,13 @@ $(document).ready(function()
 
 	$("#go").click(function()
 	{
-		onDeck.countdown();
-		station1.countdown();		
+		onDeck.startCountdown();
+		station1.startCountdown();		
 	});	
 	$(".pauseOne").click(function()
 	{
-		onDeck.pause();
-		station1.pause();
+		onDeck.stopCountdown();
+		station1.stopCountdown();
 	});
 	// var minInput = 10
 	// var min=minInput-1;
