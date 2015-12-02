@@ -12,25 +12,30 @@ $(document).ready(function()
 	{		
 		if($("#deckInput").val()!=="")
 		{
-			deckTimer = $("#deckInput").val();								
+			deckTimer = $("#deckInput").val();
+			onDeck.adjustMin();								
 		}
 		if($("#oneInput").val()!=="")
 		{
-			stationOneTimer = $("#oneInput").val();						
+			stationOneTimer = $("#oneInput").val();
+			station1.adjustMin();						
 		}
 		if($("#twoInput").val()!=="")
 		{
-			stationTwoTimer = $("#twoInput").val();						
+			stationTwoTimer = $("#twoInput").val();
+			station2.adjustMin();						
 		}
 		if($("#threeInput").val()!=="")
 		{
-			stationThreeTimer = $("#threeInput").val();						
+			stationThreeTimer = $("#threeInput").val();
+			station3.adjustMin();						
 		}
 
 		$("#deck-timer").html(deckTimer+":00");
 		$(".timer-one").html(stationOneTimer+":00");
 		$(".timer-two").html(stationTwoTimer+":00");
 		$(".timer-three").html(stationThreeTimer+":00");
+
 	});
 
 	//Check current time and display on clock
@@ -151,13 +156,13 @@ $(document).ready(function()
 		y++;
 	};
 
-	function Timer(minute,timerID)
+	function Timer(minute,timerID,input)
 	{
-
 		var min = minute-1;
 		var sec = 60;
 		var self = this;
 		this.startTimer;
+		this.input = input;
 
 		this.startCountdown = function()
 		{
@@ -194,8 +199,7 @@ $(document).ready(function()
 			{			
 				min--;
 				sec=60;			
-			}
-																					
+			}																					
 		};
 
 		this.addMin = function()
@@ -204,7 +208,7 @@ $(document).ready(function()
 		}
 		this.adjustMin = function()
 		{
-
+			min=$(this.input).val()-1;
 		}
 		this.reset = function()
 		{
@@ -212,10 +216,10 @@ $(document).ready(function()
 		}
 	}
 
-	var onDeck = new Timer(deckTimer, "#deck-timer");
-	var station1 = new Timer(stationOneTimer, ".timer-one");
-	var station2 = new Timer(stationTwoTimer, ".timer-two");
-	var station3 = new Timer(stationThreeTimer, ".timer-three");
+	var onDeck = new Timer(deckTimer, "#deck-timer", "#deckInput");
+	var station1 = new Timer(stationOneTimer, ".timer-one", "#oneInput");
+	var station2 = new Timer(stationTwoTimer, ".timer-two", "#twoInput");
+	var station3 = new Timer(stationThreeTimer, ".timer-three", "#threeInput");
 
 	$("#go").click(function()
 	{
