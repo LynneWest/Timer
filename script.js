@@ -12,7 +12,7 @@ $(document).ready(function()
 	{		
 		if($("#deckInput").val()!=="")
 		{
-			deckTimer = $("#deckInput").val();						
+			deckTimer = $("#deckInput").val();								
 		}
 		if($("#oneInput").val()!=="")
 		{
@@ -153,61 +153,55 @@ $(document).ready(function()
 
 	function Timer(minute,timerID)
 	{
-		//this.min = minute;
+
 		var min = minute-1;
 		var sec = 60;
+		this.done = false;
 		this.startTimer;
-		
-		// this.countdown = function()
-		// {			
-			// if(min>0 && sec>0)
-			// {
-				this.startCountdown = function()
-				{
-					if(min>0 && sec>0)
-					{
-						this.startTimer = setInterval(function(){countdown();},20)
-					}
-				}
-				this.stopCountdown = function()
-				{
-					console.log("stop");
-					clearInterval(this.startTimer);
-				}				
 				
-				function countdown() 
-				{
-					sec--;
-					if(min===0 && sec===0)
-					{
-						clearInterval(this.startTimer);
-					}					
-					if(sec>9)
-					{
-						$(timerID).html(min+":"+sec);		
-					}
-					else
-					{
-						$(timerID).html(min+":0"+sec);
-					}		
-					if(sec===0)
-					{			
-						min--;
-						sec=60;			
-					}																	
-				};
+		this.startCountdown = function()
+		{
+			if(min>0 && sec>0)
+			{
+				this.startTimer = setInterval(function(){countdown();},200)
+			}
+		}
 
-				// function stop()
-				// {
-				// 	clearInterval(startTimer);
-				// }
-			// }
-		// }
-		// this.stop = function()
-		// {
-		// 	clearInterval(startTimer);
-		// }
+		this.stopCountdown = function()
+		{
+			
+			clearInterval(this.startTimer);			
+		}
+
+		function countdown() 
+		{			
+			sec--;			
+						
+			if(sec>9)
+			{
+				$(timerID).html(min+":"+sec);						
+			}
+			else
+			{
+				$(timerID).html(min+":0"+sec);
+			}		
+			if(sec===0)
+			{			
+				min--;
+				sec=60;			
+			}
+			if(min===0 && sec===1)
+			{
+				this.done = true;
+				console.log("clear ran");				
+			};																			
+		};
+
 		this.addMin = function()
+		{
+			min++;
+		}
+		this.adjustMin = function()
 		{
 
 		}
@@ -226,12 +220,19 @@ $(document).ready(function()
 	{
 		onDeck.startCountdown();
 		station1.startCountdown();		
-	});	
+	});
+
 	$(".pauseOne").click(function()
 	{
 		onDeck.stopCountdown();
 		station1.stopCountdown();
 	});
+	$("#add-min-button").click(function()
+	{
+		onDeck.addMin();
+	});
+
+
 	// var minInput = 10
 	// var min=minInput-1;
 	// var sec=60;
