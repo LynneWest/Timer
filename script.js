@@ -10,6 +10,11 @@ $(document).ready(function()
 	//apply new times on submit click		
 	$("#submit-time").click(function()
 	{		
+		newTime();
+	});
+
+	function newTime()
+	{
 		if($("#deckInput").val()!=="")
 		{
 			deckTimer = $("#deckInput").val();
@@ -35,8 +40,7 @@ $(document).ready(function()
 		$(".timer-one").html(stationOneTimer+":00");
 		$(".timer-two").html(stationTwoTimer+":00");
 		$(".timer-three").html(stationThreeTimer+":00");
-
-	});
+	}
 
 	//Check current time and display on clock
 	function clock()
@@ -108,11 +112,15 @@ $(document).ready(function()
 	$("#reset").click(function()
 	{
 		set();
+		onDeck.reset();
+		station1.reset();
+		station2.reset();
+		station3.reset();
 	});
 	
 	$("#submit-crew").click(function()
 	{
-		set();				
+		set();						
 	});		
 	
 	$("#next").click(function()
@@ -120,6 +128,7 @@ $(document).ready(function()
 		next();
 	});
 
+	//move crew numbers through timers
 	function next()
 	{	if(crewArray[3+y] === undefined)
 		{
@@ -156,11 +165,13 @@ $(document).ready(function()
 		y++;
 	};
 
+	//Constructor for timers
 	function Timer(minute,timerID,input)
 	{
 		var min = minute-1;
 		var sec = 60;
 		var self = this;
+		var running = false;
 		this.startTimer;
 		this.input = input;
 
@@ -168,14 +179,15 @@ $(document).ready(function()
 		{
 			if(min>0 && sec>0)
 			{
-				this.startTimer = setInterval(function(){countdown();},20)
+				this.startTimer = setInterval(function(){countdown();},200)
 			}
+			running = true;
 		}
 
 		this.stopCountdown = function()
-		{
-			
-			clearInterval(this.startTimer);			
+		{			
+			clearInterval(this.startTimer);
+			running = false;			
 		}
 
 		function countdown() 
@@ -205,14 +217,22 @@ $(document).ready(function()
 		this.addMin = function()
 		{
 			min++;
+			if(running===false)
+			{
+				$(timerID).html((min+1)+":00");	
+			}			
 		}
 		this.adjustMin = function()
 		{
-			min=$(this.input).val()-1;
+			min = $(this.input).val()-1;
 		}
 		this.reset = function()
 		{
-			//reset function here
+			self.stopCountdown();
+			newTime();
+			min = minute-1;			
+			sec = 60;
+			$(timerID).html(minute+":00");			
 		}
 	}
 
