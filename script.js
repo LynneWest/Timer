@@ -156,14 +156,14 @@ $(document).ready(function()
 
 		var min = minute-1;
 		var sec = 60;
-		this.done = false;
+		var self = this;
 		this.startTimer;
-				
+
 		this.startCountdown = function()
 		{
 			if(min>0 && sec>0)
 			{
-				this.startTimer = setInterval(function(){countdown();},200)
+				this.startTimer = setInterval(function(){countdown();},20)
 			}
 		}
 
@@ -175,6 +175,11 @@ $(document).ready(function()
 
 		function countdown() 
 		{			
+			if(min===0 && sec===1)
+			{
+				self.stopCountdown();								
+			};	
+
 			sec--;			
 						
 			if(sec>9)
@@ -190,11 +195,7 @@ $(document).ready(function()
 				min--;
 				sec=60;			
 			}
-			if(min===0 && sec===1)
-			{
-				this.done = true;
-				console.log("clear ran");				
-			};																			
+																					
 		};
 
 		this.addMin = function()
