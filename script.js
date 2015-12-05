@@ -1,10 +1,10 @@
 $(document).ready(function()
 {
 	//Change defualt times here
-	var deckTimer = 12;
-	var stationOneTimer = 10;
-	var stationTwoTimer = 10;
-	var stationThreeTimer = 10;
+	var deckTimer = 6;
+	var stationOneTimer = 4;
+	var stationTwoTimer = 4;
+	var stationThreeTimer = 4;
 
 	//Check current time and display on clock
 	function clock()
@@ -42,12 +42,17 @@ $(document).ready(function()
         	if($("#2").is(":checked"))
         	{
         		$(".two-timers").removeClass("hidden");
-        		$(".three-timers").addClass("hidden");
+        		$(".three-timers").addClass("hidden");        		
         	}
         	else
         	{
         		$(".two-timers").addClass("hidden");
         		$(".three-timers").removeClass("hidden");
+        		onDeck.reset();
+				station1.reset();
+				station2.reset();
+				station3.reset();
+				//ghostTimer.reset();
         	}        
     	});
 	});	
@@ -145,8 +150,10 @@ $(document).ready(function()
 		var min = minute-1;
 		var sec = 60;
 		var self = this;
-		this.running = false;		
+		this.running = false;
+		//console.log(timerID+" running: "+this.running);		
 		this.done = false;
+		//console.log(timerID+" done: "+this.done);
 		this.startTimer;
 		this.input = input;		
 
@@ -154,48 +161,47 @@ $(document).ready(function()
 		{
 			if(min>0 && sec>0)
 			{
-				this.startTimer = setInterval(function(){countdown();},200);
+				this.startTimer = setInterval(function(){countdown();},100);
 			}
 			this.running = true;
-			self.done = false;
-
+			console.log(timerID+" running: "+this.running);
+			//self.done = false;
+			//console.log(timerID+" done: "+self.done);
 		};
 
 		this.stopCountdown = function()
 		{			
 			clearInterval(this.startTimer);
-			this.running = false;			
+			this.running = false;
+			//console.log(timerID+" running: "+this.running);			
 		};
 
 		function countdown() 
 		{			
 			sec--;
-			// if(min===0 && sec===1)
-			// {
-			// 	self.stopCountdown();
-			// 	//self.reset();								
-			// }			
-
+			
 			if(min===0 && sec===0)
-			{
+			{				
 				self.stopCountdown();
-				self.done = true;				
+				self.done = true;
+				console.log(timerID+" done: "+self.done);								
 				doneFunc();
-			}			
-
-			if(sec>9)
+				self.reset();				
+				//$(timerID).html(minute+":00");
+			}								
+			else if(sec===0)
+			{			
+				min--;
+				sec=60;			
+			}
+			else if(sec>9)
 			{
 				$(timerID).html(min+":"+sec);						
 			}
 			else
 			{
 				$(timerID).html(min+":0"+sec);
-			}		
-			if(sec===0)
-			{			
-				min--;
-				sec=60;			
-			}																		
+			}																				
 		}
 
 		this.addMin = function()
@@ -210,16 +216,16 @@ $(document).ready(function()
 
 		this.adjustMin = function()
 		{
-			min = $(this.input).val()-1;
+			min = $(this.input).val()-1;			
 		};
 
 		this.reset = function()
 		{
-			self.stopCountdown();
-			newTime();
+			self.stopCountdown();			
 			min = minute-1;			
 			sec = 60;
-			$(timerID).html(minute+":00");			
+			$(timerID).html(minute+":00");
+			newTime();			
 		};		
 	}
 
@@ -233,7 +239,6 @@ $(document).ready(function()
 		{
 			if(onDeck.done && station1.running === false)
 			{
-				//station1.reset();
 				station1.startCountdown();
 			}
 			if(station1.done && station2.running === false)
@@ -244,8 +249,7 @@ $(document).ready(function()
 			{
 				station3.startCountdown();
 			}							
-		}
-		
+		}		
 
 	$("#go").click(function()
 	{
@@ -261,6 +265,7 @@ $(document).ready(function()
 		station1.reset();
 		station2.reset();
 		station3.reset();
+		//ghostTimer.reset();
 	});
 	
 	$("#next").click(function()
