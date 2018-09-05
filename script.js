@@ -6,13 +6,34 @@ $(document).ready(function()
 	var stationTwoTimer = 10;
 	var stationThreeTimer = 10;
 
-	//create custom timer countdown times
-	//apply new times on submit click		
+		//Check current time and display on clock
+		function clock()
+		{
+			var d = new Date();
+			var hour = d.getHours();
+			var min = d.getMinutes();
+			var sec = d.getSeconds();
+			if(hour>12)
+			{
+				hour-=12;			
+			}
+			if(min<10){
+				min="0"+min;
+			}
+			if(sec<10){
+				sec="0"+sec;
+			}
+			$("#clock-time").html(hour+":"+min+":"+sec);
+			var t = setTimeout(clock, 500);
+		}
+		clock();
+
+	//when submit is clicked create custom times from input		
 	$("#submit-time").click(function()
 	{		
 		if($("#deckInput").val()!=="")
 		{
-			deckTimer = $("#deckInput").val();						
+			deckTimer = $("#deckInput").val();									
 		}
 		if($("#oneInput").val()!=="")
 		{
@@ -25,8 +46,8 @@ $(document).ready(function()
 		if($("#threeInput").val()!=="")
 		{
 			stationThreeTimer = $("#threeInput").val();						
-		}
-		setTime();
+		}		
+		setTime();		
 	});
 
 	//apply timer minutes to timers
@@ -38,29 +59,6 @@ $(document).ready(function()
 		$(".timer-three").html(stationThreeTimer+":00");
 	}
 	setTime()
-
-	//Check current time and display on clock
-	function clock()
-	{
-		var d = new Date();
-		var hour = d.getHours();
-		var min = d.getMinutes();
-		var sec = d.getSeconds();
-		if(hour>12)
-		{
-			hour-=12;			
-		}
-		if(min<10){
-			min="0"+min;
-		}
-		if(sec<10){
-			sec="0"+sec;
-		}
-		$("#clock-time").html(hour+":"+min+":"+sec);
-		var t = setTimeout(clock, 500);
-	}
-	clock();
-	
 
 	//Display two timers or three timers depending on radio button selection
 	$(function()
@@ -104,6 +102,8 @@ $(document).ready(function()
 	$("#reset").click(function() 
 	{
 		set();
+		//setTime();
+		// need to stop timer too
 	});
 	
 	$("#submit-crew").click(function()
@@ -159,8 +159,7 @@ $(document).ready(function()
 		var sec = 60;
 		
 		this.countdown = function()
-		{
-			
+		{			
 			if(min>0 && sec>0)
 			{
 				start = setInterval(function()
