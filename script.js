@@ -26,12 +26,18 @@ $(document).ready(function()
 		{
 			stationThreeTimer = $("#threeInput").val();						
 		}
+		setTime();
+	});
 
+	//apply timer minutes to timers
+	function setTime()
+	{
 		$("#deck-timer").html(deckTimer+":00");
 		$(".timer-one").html(stationOneTimer+":00");
 		$(".timer-two").html(stationTwoTimer+":00");
 		$(".timer-three").html(stationThreeTimer+":00");
-	});
+	}
+	setTime()
 
 	//Check current time and display on clock
 	function clock()
@@ -55,11 +61,6 @@ $(document).ready(function()
 	}
 	clock();
 	
-	//display defualt times in timers
-	$("#deck-timer").html(deckTimer+":00");
-	$("#timer-one").html(stationOneTimer+":00");
-	$("#timer-two").html(stationTwoTimer+":00");
-	$("#timer-three").html(stationThreeTimer+":00");
 
 	//Display two timers or three timers depending on radio button selection
 	$(function()
@@ -100,7 +101,7 @@ $(document).ready(function()
 		$(".station-three").html("");
 	}
 
-	$("#reset").click(function()
+	$("#reset").click(function() 
 	{
 		set();
 	});
