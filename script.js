@@ -28,7 +28,7 @@ $(document).ready(function()
 		}
 		clock();
 
-	//when submit is clicked create custom times from input		
+	//when submit is clicked create custom timers from input		
 	$("#submit-time").click(function()
 	{		
 		if($("#deckInput").val()!=="")
@@ -47,8 +47,7 @@ $(document).ready(function()
 		{
 			stationThreeTime = $("#threeInput").val();						
 		}		
-		setTime();
-		instanciateTimers();		
+		setTime();				
 	});
 
 	//apply timer minutes to timers
@@ -57,7 +56,8 @@ $(document).ready(function()
 		$("#deck-timer").html(deckTime+":00");
 		$(".timer-one").html(stationOneTime+":00");
 		$(".timer-two").html(stationTwoTime+":00");
-		$(".timer-three").html(stationThreeTime+":00");		
+		$(".timer-three").html(stationThreeTime+":00");
+		instanciateTimers();
 	}
 	setTime()
 
@@ -83,8 +83,8 @@ $(document).ready(function()
 	var order;
 	var y = 0-1;
 	
-	//Crew and display crew order
-	//Crew first crews to timers
+	//Set and display crew order
+	//Set first crews to timers
 	//clear station two and three crew assignments
 	function setCrew()
 	{
@@ -103,7 +103,7 @@ $(document).ready(function()
 	$("#reset").click(function() 
 	{
 		setCrew();
-		//setTime();
+		setTime();
 		// need to stop timer too
 	});
 	
