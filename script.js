@@ -117,6 +117,7 @@ $(document).ready(function()
 		nextCrew();
 	});
 
+	//moves crew numbers through timers
 	function nextCrew()
 	{	if(crewArray[3+y] === undefined)
 		{
@@ -168,7 +169,7 @@ $(document).ready(function()
 					sec--;
 					if(min===0 && sec===0)
 					{
-						clearInterval(start);
+						clearInterval(start);						
 					}			
 					
 					if(sec>9){
